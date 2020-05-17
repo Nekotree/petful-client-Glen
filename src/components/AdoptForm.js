@@ -12,7 +12,7 @@ export default class AdoptForm extends Component {
         let name = this.state.name;
         this.context.onAddPerson(name);
         this.props.add(name)
-        this.props.waitingLine();
+        // this.props.waitingLine();
         this.setState({
             name: ''
         })

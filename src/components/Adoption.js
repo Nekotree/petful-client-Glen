@@ -12,7 +12,7 @@ export default class Adoption extends Component {
     }
 
     componentDidMount = () => {
-        this.moveLine()
+
     }
 
 
@@ -49,7 +49,7 @@ export default class Adoption extends Component {
                 <p>The following people are in line for adoption</p>
                 <ul>
                     {people.map(person =>
-                        <li key={person + Math.random()}>
+                        <li key={this.context.people + Math.random()}>
                             {person}
                         </li>
                     )}
