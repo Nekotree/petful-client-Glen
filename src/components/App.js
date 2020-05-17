@@ -47,14 +47,6 @@ class App extends Component {
   }
 
 
-  // removePerson = () => {
-
-  //   fetch(`${config.API_ENDPOINT}/people`, {
-  //     method: 'DELETE',
-  //   });
-
-  // }
-
   addPeople = (name) => {
     fetch(`${config.API_ENDPOINT}/people`, {
       method: 'POST',
@@ -68,26 +60,116 @@ class App extends Component {
     })
   }
 
+  queuePerson = () => {
+    fetch(`${config.API_ENDPOINT}/api/people`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `Test Person ${Math.floor(Math.random() * 100)}`,
+      })
+
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          return fetch(`${config.API_ENDPOINT}/people`)
+            .then((data) => data.json())
+            .then((result) => {
+              this.setState({
+                people: result,
+              });
+            });
+        } else {
+          throw new Error("The post request failed");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });;
+  }
+
   deletePeople = () => {
     fetch(`${config.API_ENDPOINT}/people`, {
-      method: 'DELETE',
-    });
-    this.setState({
-      people: this.state.people
+      method: "DELETE",
     })
+      .then((res) => {
+        if (res.status === 201) {
+          return fetch(`${config.API_ENDPOINT}/people`)
+            .then((data) => data.json())
+            .then((result) => {
+              this.setState({
+                people: result,
+              });
+            });
+        } else {
+          throw new Error("The delete request failed");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  deleteDog = () => {
+    fetch(`${config.API_ENDPOINT}/dogs`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          return fetch(`${config.API_ENDPOINT}/dogs`)
+            .then((data) => data.json())
+            .then((result) => {
+              this.setState({
+                dogs: result,
+              });
+            });
+        } else {
+          throw new Error("The delete request failed")
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+
+  deleteCat = () => {
+    fetch(`${config.API_ENDPOINT}/cats`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          fetch(`${config.API_ENDPOINT}/cats`)
+            .then((data) => data.json())
+            .then((result) => {
+              this.setState({
+                cats: result,
+              });
+            })
+        } else {
+          throw new Error("Delete request failed")
+        }
+      })
+      .catch((err) => {
+        console.err(err);
+      })
   }
 
 
 
+
+
   render() {
-    console.log(this.state.people)
+
     const contextValue = {
       people: this.state.people,
       cats: this.state.cats,
       dogs: this.state.dogs,
       onAddPerson: this.addPeople,
-      onDeletePerson: this.deletePeople
-
+      onDeletePerson: this.deletePeople,
+      onDeleteDog: this.deleteDog,
+      onDeleteCat: this.deleteCat,
+      onQueuePerson: this.queuePerson
     }
 
     return (

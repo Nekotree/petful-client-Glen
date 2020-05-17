@@ -11,8 +11,8 @@ export default class AdoptForm extends Component {
         e.preventDefault();
         let name = this.state.name;
         this.context.onAddPerson(name);
-        this.props.add(name)
-        // this.props.waitingLine();
+        this.props.add(name);
+        this.props.queueLine();
         this.setState({
             name: ''
         })
@@ -22,8 +22,7 @@ export default class AdoptForm extends Component {
     static contextType = PetfulContext;
 
     render() {
-        let people = this.context.people || []
-        // console.log(people)
+
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
